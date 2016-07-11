@@ -1,2 +1,23 @@
 ---
 # tasks file for mule-app
+
+- name: make sure lxml installed
+  yum: name={{item}} state=latest
+  with_items: 
+    - gcc
+    - ruby-devel
+    - libxml2
+    - libxml2-devel
+    - libxslt
+    - libxslt-devel
+
+
+- name: retrieve mule app from nexus
+  maven_artifact: 
+    group_id: "{{app_group_id}}"
+    artifact_id: "{{app_artifact_id}}"
+    extension: "zip"
+    repository_url: "{{nexus_url}}"
+    dest: "{{apps_dir}}/mule/apps/{{deploy_name}}.zip"
+
+
